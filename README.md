@@ -7,6 +7,7 @@
 
 * Define custom readPermissions and writePermissions for the contentProvider. Also, it should be noted that having the write permission does not automatically imply the read permission. 
 e.g. :
+
 		<provider
 		   android:name=".SecureContentProvider"
 		  android:authorities="cp.securecode.dt.provider"
@@ -18,6 +19,7 @@ e.g. :
 
 * However, when permissions are enforced using these methods, they apply to all of the data within a given provider. At times, it is needed to grant permissions to certain portions of a Content Provider’s database for a short period of time. In such scenarios, uriPermission system of android is used. In order to use it, a Content Provider must be configured to allow this in the Android Manifest. Because this system is used to extend permissions beyond what is normally configured, the mechanism is turned off by default. There are two ways to enable URI permissions: one that covers any URI contained within the Content Provider and another that covers only a subset of URIs. In order to enable temporary URI permissions globally within a Content Provider, set the grantUriPermissions attribute in the <provider> declaration to true, like this:
 e.g. :
+
 		<provider
 		  android:name=".SecureContentProvider"
 		  android:authorities="cp.securecode.dt.provider"
@@ -27,7 +29,8 @@ e.g. :
 		</provider>
 
 * The global configuration allows the Content Provider to grant permissions to any accessible URI within it. It is possible that the user is interested in granting temporary permission to a subset of URIs. In such cases, user can omit the grantUriPermissions attribute and instead include separate <grant-uri-permission> elements within the <provider> element.
- e.g: 
+ e.g:
+
 		<provider
 		              android:name=".SecureContentProvider"
 		              android:authorities="cp.securecode.dt.provider"
@@ -39,6 +42,7 @@ e.g. :
 		 </provider>
 
 * The next step is to grant these permissions using the app. Below is the code snippet for the same.
+
 		Intent intent = new Intent(Intent.ACTION_VIEW);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -52,6 +56,7 @@ e.g. :
 		Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
 * Also, do not forget to revoke the permission once the activity has been closed. Below is the way to do that.
+
 		uri = "content://com.dt.securecode.testap.mailprovider/attachments/42";
 		Context.revokeUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
  			      
